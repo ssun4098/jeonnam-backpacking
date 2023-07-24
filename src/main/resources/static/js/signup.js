@@ -76,7 +76,7 @@ $(document).ready(function () {
             dataType: 'text',
             data: {nickname: nickname},
             success: function (data) {
-                if(data === true) {
+                if(data === "true") {
                     modalBody.text('해당 닉네임은 사용중입니다.');
                 } else {
                     checkNickname = true;

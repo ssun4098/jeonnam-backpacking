@@ -1,10 +1,12 @@
 package daonplace.com.jeonnambackpacking.common.auth;
 
+import daonplace.com.jeonnambackpacking.common.auth.exception.PasswordNotMatchException;
 import daonplace.com.jeonnambackpacking.model.MemberDetails;
 import daonplace.com.jeonnambackpacking.service.member.impl.MemberDetailsService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.authentication.AuthenticationProvider;
+import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
@@ -21,6 +23,7 @@ public class CustomAuthenticationProvider implements AuthenticationProvider {
     @Override
     public Authentication authenticate(Authentication authentication) throws AuthenticationException {
 
+        log.info(authentication.toString());
         String loginId = authentication.getName();
 
         String password = (String) authentication.getCredentials();
@@ -30,7 +33,7 @@ public class CustomAuthenticationProvider implements AuthenticationProvider {
         UserDetails memberDetails = memberDetailsService.loadUserByUsername(loginId);
 
         if(!passwordEncoder.matches(password, memberDetails.getPassword())) {
-            throw new RuntimeException();
+            throw new BadCredentialsException("Password Not Match");
         }
         return new UsernamePasswordAuthenticationToken(memberDetails, null, memberDetails.getAuthorities());
     }

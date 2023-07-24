@@ -1,6 +1,8 @@
 package daonplace.com.jeonnambackpacking.common.config;
 
 import daonplace.com.jeonnambackpacking.common.auth.CustomAuthenticationProvider;
+import daonplace.com.jeonnambackpacking.common.auth.LoginFailHandler;
+import daonplace.com.jeonnambackpacking.common.auth.LoginSuccessHandler;
 import daonplace.com.jeonnambackpacking.model.MemberDetails;
 import daonplace.com.jeonnambackpacking.service.member.impl.MemberDetailsService;
 import lombok.RequiredArgsConstructor;
@@ -19,6 +21,8 @@ import org.springframework.security.web.SecurityFilterChain;
 @EnableWebSecurity
 public class SecurityConfig {
     private final CustomAuthenticationProvider customAuthenticationProvider;
+    private final LoginFailHandler loginFailHandler;
+    private final LoginSuccessHandler loginSuccessHandler;
 
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
@@ -31,19 +35,14 @@ public class SecurityConfig {
                 .loginProcessingUrl("/login")
                 .usernameParameter("email")
                 .passwordParameter("password")
-                .successHandler(((request, response, authentication) -> {
-                    System.out.println("12121212121212121212");
-                    response.sendRedirect("/test");
-                }))
-                .failureHandler((request, response, exception) -> {
-                    log.info("exception: ", exception);
-                });
+                .successHandler(loginSuccessHandler)
+                .failureHandler(loginFailHandler);
 
         http.authorizeHttpRequests(
                 (auth) -> {
                     auth.antMatchers("/api/members/**").permitAll();
                     auth.antMatchers("/members/**").permitAll();
-                    auth.antMatchers("/test").hasAnyRole("MEMBER");
+                    auth.antMatchers("/").permitAll();
                 }
                 );
         http.authenticationManager(authenticationManager(http));
