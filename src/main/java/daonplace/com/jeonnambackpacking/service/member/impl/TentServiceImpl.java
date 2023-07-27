@@ -35,7 +35,6 @@ public class TentServiceImpl implements TentService {
         String response = null;
         try {
             response = restTemplate.getForObject(uriBuilder.build(true).toUri(), String.class);
-            TentSearchResponseDto responseDto = objectMapper.readValue(response, TentSearchResponseDto.class);
         } catch (Exception e) {
             e.printStackTrace();
         }
