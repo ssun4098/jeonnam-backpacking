@@ -6,10 +6,9 @@
     <title>전남 캠핑촌</title>
     <link rel="stylesheet" href="../bootstrap/css/bootstrap.min.css">
     <link rel="stylesheet" href="../css/common.css">
-
+    <script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=789a28227e407dc11cd8a2d54a3d5650&libraries=services"></script>
     <script src="../bootstrap/js/bootstrap.min.js" type="text/javascript"></script>
     <script src="../jquery/jquery.min.js" type="text/javascript"></script>
-    <script src="../js/main.js" type="text/javascript"></script>
 </head>
 <body>
     <div class="container" id="main-container">
@@ -49,14 +48,47 @@
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
-                    <p>Modal body text goes here.</p>
+                    <div class="mb-3">
+                        <h1>장소</h1>
+                        <div id="tent-addr">
+                        </div>
+                        <div id="map" style="width:500px;height:400px;"></div>
+                    </div>
+                    <div class="mb-3">
+                        <h1>홈페이지</h1>
+                        <div id="tent-homepage">
+                        </div>
+                    </div>
+                    <div>
+                        <h1>상세 정보</h1>
+                        <div id="tent-intro">
+                        </div>
+                    </div>
+                    <div>
+                        <h1>오픈 기간</h1>
+                        <div id="tent-open">
+                        </div>
+                    </div>
+                    <div class="mb-3">
+                        <h1>교통</h1>
+                        <div id="tent-traffic-info">
+                        </div>
+                    </div>
+                    <div class="mb-3">
+                        <h1>담당 부서</h1>
+                        <div id="tent-reservation">
+                        </div>
+                    </div>
+                    <div id="img-area" class="mb-3">
+                        <h1 class="mb-3">이미지</h1>
+                    </div>
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                    <button type="button" class="btn btn-primary">Save changes</button>
                 </div>
             </div>
         </div>
     </div>
+    <script src="../js/main.js" type="text/javascript"></script>
 </body>
 </html>

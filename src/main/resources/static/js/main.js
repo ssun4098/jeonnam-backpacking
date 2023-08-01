@@ -1,5 +1,5 @@
+var map = null;
 $(document).ready(function () {
-    console.log('test');
     search(null, 0, 10);
 })
 
@@ -16,14 +16,10 @@ function search (name, page, size) {
             size: size
         },
         success: function (data, textStatus, xhr) {
-            console.log(data)
             data.body.data.list.forEach((a, i) => {
-                console.log(a.tentNm);
-                console.log(i);
                 const link = $('<a>');
                 link.text(a.tentNm);
                 link.on('click', function () {
-                    console.log('test');
                     details(a);
                 })
 
@@ -90,6 +86,56 @@ function search (name, page, size) {
     })}
 
 function details(tent) {
-    $('#tent-title').text(tent.tentNm);
-    $('#modal').modal('show');
+
+    $.ajax({
+        url: "/api/tents/" + tent.tentId,
+        type: 'get',
+        dataType: 'json',
+        success: function (data, textStatus, xhr) {
+            const imgArea = $('#img-area')
+            for(let i = 0; i < data.body.data.list.length; i++) {
+                const img = $('<img>').attr('src', data.body.data.list[i].imgUrl);
+                imgArea.append(img);
+            }
+            $('img').addClass('rounded ms-1 mt-1').width(400).height(250);
+        },
+        error: function(error) {
+            console.log(error);
+        }
+    })
+
+    var geocoder = new kakao.maps.services.Geocoder();
+
+    geocoder.addressSearch(tent.tentAddr, function(result, status) {
+        if (status === kakao.maps.services.Status.OK) {
+            console.log(parseFloat(result[0].y));
+            var container = $('#map')[0]; //지도를 담을 영역의 DOM 레퍼런스
+            var options = { //지도를 생성할 때 필요한 기본 옵션
+                center: new kakao.maps.LatLng(parseFloat(result[0].y), parseFloat(result[0].x)), //지도의 중심좌표.
+                level: 3 //지도의 레벨(확대, 축소 정도)
+            };
+            map = new kakao.maps.Map(container, options); //지도 생성 및 객체 리턴
+            $('#tent-title').text(tent.tentNm);
+            $('#tent-addr').text(tent.tentAddr)
+            if(tent.tentHomepage !== '') {
+                $('#tent-homepage').html(tent.tentHomepage);
+            } else {
+                $('#tent-homepage').text('없음');
+            }
+            $('#tent-intro').html(tent.tentIntro);
+            $('#tent-open').html(tent.tentOpen);
+            $('#tent-traffic-info').html(tent.tentTrafficInfo);
+            $('#tent-reservation').text(tent.tentReservation);
+            $('#modal').modal('show');
+            map.relayout();
+            var markerPosition = new kakao.maps.LatLng(parseFloat(result[0].y), parseFloat(result[0].x));
+
+            // 마커를 생성합니다
+            var marker = new kakao.maps.Marker({
+                position: markerPosition
+            });
+            marker.setMap(map);
+        }
+
+    });
 }
