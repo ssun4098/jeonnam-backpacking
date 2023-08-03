@@ -6,7 +6,6 @@
     <title>전남 캠핑촌</title>
     <link rel="stylesheet" href="../bootstrap/css/bootstrap.min.css">
     <link rel="stylesheet" href="../css/common.css">
-    <script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=789a28227e407dc11cd8a2d54a3d5650&libraries=services"></script>
     <script src="../bootstrap/js/bootstrap.min.js" type="text/javascript"></script>
     <script src="../jquery/jquery.min.js" type="text/javascript"></script>
 </head>
@@ -52,7 +51,6 @@
                         <h1>장소</h1>
                         <div id="tent-addr">
                         </div>
-                        <div id="map" style="width:500px;height:400px;"></div>
                     </div>
                     <div class="mb-3">
                         <h1>홈페이지</h1>

@@ -103,18 +103,6 @@ function details(tent) {
             console.log(error);
         }
     })
-
-    var geocoder = new kakao.maps.services.Geocoder();
-
-    geocoder.addressSearch(tent.tentAddr, function(result, status) {
-        if (status === kakao.maps.services.Status.OK) {
-            console.log(parseFloat(result[0].y));
-            var container = $('#map')[0]; //지도를 담을 영역의 DOM 레퍼런스
-            var options = { //지도를 생성할 때 필요한 기본 옵션
-                center: new kakao.maps.LatLng(parseFloat(result[0].y), parseFloat(result[0].x)), //지도의 중심좌표.
-                level: 3 //지도의 레벨(확대, 축소 정도)
-            };
-            map = new kakao.maps.Map(container, options); //지도 생성 및 객체 리턴
             $('#tent-title').text(tent.tentNm);
             $('#tent-addr').text(tent.tentAddr)
             if(tent.tentHomepage !== '') {
@@ -127,15 +115,4 @@ function details(tent) {
             $('#tent-traffic-info').html(tent.tentTrafficInfo);
             $('#tent-reservation').text(tent.tentReservation);
             $('#modal').modal('show');
-            map.relayout();
-            var markerPosition = new kakao.maps.LatLng(parseFloat(result[0].y), parseFloat(result[0].x));
-
-            // 마커를 생성합니다
-            var marker = new kakao.maps.Marker({
-                position: markerPosition
-            });
-            marker.setMap(map);
-        }
-
-    });
 }
