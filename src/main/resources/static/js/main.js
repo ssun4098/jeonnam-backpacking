@@ -17,12 +17,10 @@ function search (name, page, size) {
         },
         success: function (data, textStatus, xhr) {
             data.body.data.list.forEach((a, i) => {
+                console.log(data);
                 const link = $('<a>');
                 link.text(a.tentNm);
-                link.on('click', function () {
-                    details(a);
-                })
-
+                link.attr('href', '/tents/' + a.tentId)
                 const td = $('<td>');
                 td.append(link);
 
