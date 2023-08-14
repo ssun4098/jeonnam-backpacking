@@ -20,7 +20,7 @@ function search (name, page, size) {
                 console.log(data);
                 const link = $('<a>');
                 link.text(a.tentNm);
-                link.attr('href', '/tents/' + a.tentId)
+                link.attr('href', '/tents?name=' + a.tentNm)
                 const td = $('<td>');
                 td.append(link);
 

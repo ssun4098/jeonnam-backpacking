@@ -9,6 +9,8 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.io.UnsupportedEncodingException;
+
 @Slf4j
 @RequiredArgsConstructor
 @RestController
@@ -19,7 +21,7 @@ public class MainRestController {
     public ResponseEntity<String> search(
             @RequestParam(name = "name", required = false) String name,
             @RequestParam(name = "size", defaultValue = "10") int size,
-            @RequestParam(name = "page", defaultValue = "0") int page) {
+            @RequestParam(name = "page", defaultValue = "0") int page) throws UnsupportedEncodingException {
         return ResponseEntity.ok(tentService.getTentList(name, size, page));
     }
 

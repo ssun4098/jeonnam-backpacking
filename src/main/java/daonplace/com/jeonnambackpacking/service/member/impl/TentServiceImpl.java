@@ -8,6 +8,10 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.util.UriComponentsBuilder;
 
+import java.io.UnsupportedEncodingException;
+import java.net.URLDecoder;
+import java.net.URLEncoder;
+import java.nio.charset.Charset;
 import java.util.Objects;
 
 @Slf4j
@@ -20,12 +24,12 @@ public class TentServiceImpl implements TentService {
     private final String tentUrl = "http://apis.data.go.kr/6460000/tentInfo/getTentInfoList";
     private final String imgUrl = "http://apis.data.go.kr/6460000/tentInfo/getTentInfoFile";
     @Override
-    public String getTentList(String name, int page, int size) {
+    public String getTentList(String name, int page, int size) throws UnsupportedEncodingException {
+        log.info(name);
         UriComponentsBuilder uriBuilder = UriComponentsBuilder.fromHttpUrl(tentUrl)
                 .queryParam("serviceKey", key)
                 .queryParam("pageSize", page)
                 .queryParam("startPage", size);
-
         if(Objects.nonNull(name)) {
             uriBuilder.queryParam("tentNm", name);
         }
@@ -36,6 +40,7 @@ public class TentServiceImpl implements TentService {
         } catch (Exception e) {
             e.printStackTrace();
         }
+        log.info(response);
         return response;
     }
 

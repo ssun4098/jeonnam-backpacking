@@ -1,24 +1,25 @@
 $(document).ready(function () {
     const urlParams = new URL(location.href).searchParams;
-    console.log(urlParams.get("tentNm"));
-    get(urlParams.get("tentNm"));
+    console.log(urlParams.get("name"));
+    get(urlParams.get("name"));
     function get(tentNm) {
         $.ajax({
             url: '/api/tents',
             type: 'GET',
             dataType: 'json',
             data: {
-                name: tentNm
+                name: encodeURI(tentNm)
             },
             success: function(tent) {
-                console.log(tent);
-                // $('#tent-title').text(tent.tentNm);
-                // $('#tent-addr').text(tent.tentAddr)
-                // $('#tent-intro').html(tent.tentIntro);
-                // $('#tent-open').html(tent.tentOpen);
-                // $('#tent-traffic-info').html(tent.tentTrafficInfo);
-                // $('#tent-reservation').text(tent.tentReservation);
-            },
+                console.log(tent.body.data.list);
+                $('#tent-title').text(tent.body.data.list.tentNm);
+                $('#tent-addr').text(tent.body.data.list.tentAddr)
+                $('#tent-intro').html(tent.body.data.list.tentIntro);
+                $('#tent-open').html(tent.body.data.list.tentOpen);
+                $('#tent-traffic-info').html(tent.body.data.list.tentTrafficInfo);
+                $('#tent-reservation').text(tent.body.data.list.tentReservation);
+                getImg(tent.body.data.list.tentId);
+                },
             error: function (data) {
 
             }
